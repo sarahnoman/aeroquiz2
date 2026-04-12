@@ -16,12 +16,14 @@ async function rget(key: string) {
 
 async function rset(key: string, value: any) {
   try {
-    await fetch(`${REDIS_URL}/set/${key}`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${REDIS_TOKEN}`, "Content-Type": "application/json" },
-      body: JSON.stringify(JSON.stringify(value)),
+    const res = await fetch(`${REDIS_URL}/set/${key}/${encodeURIComponent(JSON.stringify(value))}`, {
+      method: "GET",
+      headers: { Authorization: `Bearer ${REDIS_TOKEN}` },
     });
-  } catch {}
+    const data = await res.json();
+    console.log("rset result:", key, data);
+  } catch (e) { console.error("rset error:", e); }
+
 }
 
 export async function GET(req: NextRequest) {
