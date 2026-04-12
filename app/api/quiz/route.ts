@@ -38,6 +38,32 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const { action } = body;
 
+  if (action === "generateQuestions") {
+    const { base64, numQ, mimeType } = body;
+    const prompt = `You are an expert aviation exam writer. Read the lecture slides and generate exactly ${numQ} high-quality multiple-choice questions that test genuine understanding. Questions should be exam-realistic and precise, as expected in aviation training.\nReturn ONLY a valid JSON array. No markdown, no explanation, no backticks.\nEach item: { "question": string, "options": [A,B,C,D], "answer": 0-3, "explanation": string }`;
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY!,
+        "anthropic-version": "2023-06-01"
+      },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 4096,
+        messages: [{ role: "user", content: [
+          { type: "document", source: { type: "base64", media_type: mimeType, data: base64 } },
+          { type: "text", text: prompt }
+        ]}]
+      })
+    });
+    const data = await res.json();
+    if (data.error) return NextResponse.json({ error: data.error.message }, { status: 500 });
+    const text = data.content.map((b: any) => b.text || "").join("");
+    const questions = JSON.parse(text.replace(/```json|```/g, "").trim());
+    return NextResponse.json({ questions });
+  }
+
   if (action === "saveQuiz") {
     const quizzes = (await rget("quizzes")) || {};
     quizzes[body.date] = body.questions;
