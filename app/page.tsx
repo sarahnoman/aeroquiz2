@@ -102,15 +102,14 @@ function AdminPanel() {
         const r = new FileReader(); r.onload = () => res((r.result as string).split(",")[1]); r.onerror = rej; r.readAsDataURL(file);
       });
       setGenStatus(`Generating ${numQ} questions…`);
-      const prompt = `You are an expert aviation exam writer. Read the lecture slides and generate exactly ${numQ} high-quality multiple-choice questions that test genuine understanding. Questions should be exam-realistic and precise, as expected in aviation training.\nReturn ONLY a valid JSON array. No markdown, no explanation, no backticks.\nEach item: { "question": string, "options": [A,B,C,D], "answer": 0-3, "explanation": string }`;
-      const res = await fetch("https://api.anthropic.com/v1/messages", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 4096, messages: [{ role: "user", content: [{ type: "document", source: { type: "base64", media_type: "application/pdf", data: base64 } }, { type: "text", text: prompt }] }] })
-      });
-      const data = await res.json();
-      if (data.error) throw new Error(data.error.message);
-      const text = data.content.map((b: any) => b.text || "").join("");
-      setQuestions(JSON.parse(text.replace(/```json|```/g, "").trim()));
+      const res = await fetch("/api/quiz", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ action: "generateQuestions", base64, numQ, mimeType: "application/pdf" })
+});
+const data = await res.json();
+if (data.error) throw new Error(data.error);
+setQuestions(data.questions);
     } catch (e: any) { setErr("Generation failed: " + e.message); }
     setGenerating(false); setGenStatus("");
   }
