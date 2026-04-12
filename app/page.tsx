@@ -176,7 +176,17 @@ setQuestions(data.questions);
                 </div>
               </div>
             </div>
-
+<div style={{ marginBottom: 16 }}>
+  <div style={{ fontSize: 11, color: T.muted, fontFamily: T.mono, letterSpacing: 2, marginBottom: 8 }}>PASTE QUESTIONS JSON</div>
+  <Textarea placeholder='Paste JSON array here: [{"question":...}]' style={{ minHeight: 120 }}
+    onChange={(e: any) => {
+      try {
+        const parsed = JSON.parse(e.target.value);
+        if (Array.isArray(parsed)) setQuestions(parsed);
+      } catch {}
+    }}
+  />
+</div>
             <div onClick={() => !generating && fileRef.current?.click()} onDragOver={e => e.preventDefault()} onDrop={e => { e.preventDefault(); if (!generating) handlePDF(e.dataTransfer.files[0]); }}
               style={{ background: T.panel, border: `2px dashed ${generating ? T.accent : T.panelBorder}`, borderRadius: 12, padding: 40, textAlign: "center", cursor: generating ? "default" : "pointer", marginBottom: 20 }}>
               <input ref={fileRef} type="file" accept=".pdf" style={{ display: "none" }} onChange={e => e.target.files && handlePDF(e.target.files[0])} />
