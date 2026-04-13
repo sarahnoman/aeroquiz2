@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-const isAdmin = () => typeof window !== 'undefined' && window.location.search.includes('admin
+const isAdmin = () => typeof window !== 'undefined' && window.location.search.includes('admin=true');
 const today = () => new Date().toISOString().split('T')[0];
 const medal = (i: number) => [' ',' ',' '][i] ?? `${i+1}.`;
 const T = {
