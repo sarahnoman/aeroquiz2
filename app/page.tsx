@@ -1,4 +1,4 @@
-“use client”;
+"use client";
 import { useState, useEffect } from “react”;
 
 const isAdmin = () => typeof window !== “undefined” && window.location.search.includes(“admin=true”);
