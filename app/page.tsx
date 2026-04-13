@@ -32,11 +32,11 @@ const GhostBtn = ({ children, onClick, style = {} }: any) => (
 <button onClick={onClick} style={{ background: ‘rgba(255,255,255,0.04)’, border: ‘1px solid rgba(56,189,248,0.12)’, color: ‘#e2e8f0’, borderRadius: 8, padding: ‘10px 20px’, fontSize: 13, cursor: ‘pointer’, fontFamily: ‘Inter,sans-serif’, …style }}>{children}</button>
 );
 
-const Input = ({ style = {}, …props }: any) => (
+const Input = ({ style = {}, ...props }: any) => (
 <input style={{ width: ‘100%’, background: ‘rgba(255,255,255,0.03)’, border: ‘1px solid rgba(56,189,248,0.12)’, borderRadius: 8, padding: ‘11px 14px’, color: ‘#e2e8f0’, fontSize: 14, outline: ‘none’, fontFamily: ‘Inter,sans-serif’, …style }} {…props} />
 );
 
-const Textarea = ({ style = {}, …props }: any) => (
+const Textarea = ({ style = {}, ...props }: any) => (
 
   <textarea style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(56,189,248,0.12)', borderRadius: 8, padding: '11px 14px', color: '#e2e8f0', fontSize: 13, outline: 'none', resize: 'vertical' as const, minHeight: 90, fontFamily: 'Inter,sans-serif', ...style }} {...props} />
 );
