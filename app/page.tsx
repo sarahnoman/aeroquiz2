@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const isAdmin = () => typeof window !== "undefined" && window.location.search.includes("admin=true");
 const today = () => new Date().toISOString().split("T")[0];
@@ -10,7 +10,7 @@ const T = {
   accent: "#38bdf8", accentDim: "rgba(56,189,248,0.12)", green: "#4ade80",
   greenDim: "rgba(74,222,128,0.12)", red: "#f87171", redDim: "rgba(248,113,113,0.12)",
   amber: "#fbbf24", text: "#e2e8f0", muted: "rgba(148,163,184,0.7)",
-  subtle: "rgba(148,163,184,0.25)", mono: "'JetBrains Mono','Courier New',monospace",
+  subtle: "rgba(148,163,184,0.25)",
 };
 
 const css = `
@@ -55,6 +55,93 @@ async function api(action: string, body?: any) {
   return res.json();
 }
 
+function timeAgo(iso: string) {
+  const diff = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (diff < 60) return "just now";
+  if (diff < 3600) return Math.floor(diff/60) + "m ago";
+  if (diff < 86400) return Math.floor(diff/3600) + "h ago";
+  return Math.floor(diff/86400) + "d ago";
+}
+
+// ── GLOBAL CHAT ──────────────────────────────────────────
+function GlobalChat({ playerName }: { playerName: string }) {
+  const [messages, setMessages] = useState<any[]>([]);
+  const [text, setText] = useState("");
+  const [name, setName] = useState(playerName || "");
+  const [sending, setSending] = useState(false);
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { loadMessages(); const t = setInterval(loadMessages, 8000); return () => clearInterval(t); }, []);
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+
+  async function loadMessages() {
+    const data = await api("getActive");
+    if (data.messages) setMessages(data.messages);
+  }
+
+  async function send() {
+    if (!text.trim() || !name.trim() || sending) return;
+    setSending(true);
+    await api("saveMessage", { name: name.trim(), text: text.trim() });
+    setText("");
+    await loadMessages();
+    setSending(false);
+  }
+
+  return (
+    <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 16, overflow: "hidden", marginTop: 32 }}>
+      <div style={{ padding: "14px 18px", borderBottom: "1px solid rgba(56,189,248,0.08)", display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: 16 }}>💬</span>
+        <span style={{ fontFamily: "monospace", fontSize: 12, color: T.accent, letterSpacing: 2 }}>CREW CHAT</span>
+        <span style={{ fontSize: 11, color: T.muted, marginLeft: "auto" }}>Discuss quizzes, ask questions</span>
+      </div>
+
+      {/* Messages */}
+      <div style={{ height: 300, overflowY: "auto", padding: "14px 18px", display: "flex", flexDirection: "column", gap: 10 }}>
+        {messages.length === 0 && (
+          <div style={{ color: T.muted, fontSize: 13, textAlign: "center", marginTop: 80 }}>No messages yet. Start the discussion! ✈️</div>
+        )}
+        {messages.map((m: any, i: number) => (
+          <div key={i} style={{ display: "flex", gap: 10, animation: "fadeIn 0.3s ease" }}>
+            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(56,189,248,0.15)", border: "1px solid rgba(56,189,248,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13, fontWeight: 700, color: T.accent, flexShrink: 0, fontFamily: "monospace" }}>
+              {m.name[0].toUpperCase()}
+            </div>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 3 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: T.text }}>{m.name}</span>
+                <span style={{ fontSize: 11, color: T.muted }}>{timeAgo(m.time)}</span>
+              </div>
+              <div style={{ fontSize: 14, color: T.muted, lineHeight: 1.5 }}>{m.text}</div>
+            </div>
+          </div>
+        ))}
+        <div ref={bottomRef} />
+      </div>
+
+      {/* Input */}
+      <div style={{ padding: "12px 18px", borderTop: "1px solid rgba(56,189,248,0.08)", display: "flex", flexDirection: "column", gap: 8 }}>
+        {!playerName && (
+          <Input placeholder="Your callsign" value={name} onChange={(e: any) => setName(e.target.value)} style={{ fontSize: 13 }} />
+        )}
+        <div style={{ display: "flex", gap: 8 }}>
+          <input
+            value={text}
+            onChange={e => setText(e.target.value)}
+            onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
+            placeholder="Ask a question or share a thought…"
+            style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(56,189,248,0.15)", borderRadius: 8, padding: "10px 14px", color: "#e2e8f0", fontSize: 14, outline: "none", fontFamily: "Inter,sans-serif" }}
+          />
+          <button onClick={send} disabled={sending || !text.trim() || !name.trim()}
+            style={{ background: text.trim() && name.trim() ? "linear-gradient(135deg,rgba(56,189,248,0.25),rgba(56,189,248,0.1))" : "rgba(255,255,255,0.04)", border: "1px solid "+(text.trim() && name.trim() ? "#38bdf8" : "rgba(56,189,248,0.12)"), color: text.trim() && name.trim() ? "#38bdf8" : T.muted, borderRadius: 8, padding: "10px 18px", fontSize: 14, cursor: text.trim() && name.trim() ? "pointer" : "default", fontWeight: 700, transition: "all 0.2s" }}>
+            {sending ? "..." : "↑"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── ADMIN ────────────────────────────────────────────────
 function AdminPanel() {
   const [tab, setTab] = useState("generate");
   const [quizzes, setQuizzes] = useState<Record<string, any[]>>({});
@@ -251,6 +338,7 @@ function AdminPanel() {
   );
 }
 
+// ── PLAYER ───────────────────────────────────────────────
 function PlayerApp() {
   const [screen, setScreen] = useState("home");
   const [quizzes, setQuizzes] = useState<Record<string, any[]>>({});
@@ -329,15 +417,17 @@ function PlayerApp() {
   );
 
   if (screen === "home") return (
-    <Wrap>
+    <Wrap maxW={680}>
       <div style={{ marginBottom: 28 }}>
         <div style={{ fontFamily: "monospace", fontSize: 11, color: T.accent, letterSpacing: 4, marginBottom: 8 }}>DAILY BRIEFING</div>
         <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 4 }}>Choose your quiz</div>
         <div style={{ color: T.muted, fontSize: 14 }}>Select a session and compete with your crew.</div>
       </div>
+
       {quizDates.length === 0 && (
         <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 14, padding: 24, textAlign: "center", color: T.muted, fontSize: 13 }}>NO QUIZZES AVAILABLE — STAND BY</div>
       )}
+
       {quizDates.map(date => {
         const isToday = date === today();
         const dateLb = leaderboard.filter((e: any) => e.date === date).sort((a: any, b: any) => b.score - a.score);
@@ -366,6 +456,9 @@ function PlayerApp() {
           </div>
         );
       })}
+
+      {/* Global Chat */}
+      <GlobalChat playerName={playerName} />
     </Wrap>
   );
 
@@ -446,6 +539,9 @@ function PlayerApp() {
         ))}
       </div>
       <PrimaryBtn onClick={() => setScreen("home")}>← BACK TO ALL QUIZZES</PrimaryBtn>
+      <div style={{ marginTop: 16 }}>
+        <GlobalChat playerName={playerName} />
+      </div>
     </Wrap>
   );
 
