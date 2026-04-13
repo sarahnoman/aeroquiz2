@@ -31,10 +31,11 @@ export async function GET(req: NextRequest) {
   const action = searchParams.get("action");
 
   if (action === "getActive") {
-    const [date, quizzes, leaderboard] = await Promise.all([
-      rget("activeDate"), rget("quizzes"), rget("leaderboard"),
-    ]);
-    return NextResponse.json({ date, quizzes: quizzes || {}, leaderboard: leaderboard || [] });
+    const [date, quizzes, leaderboard, messages] = await Promise.all([
+  rget("activeDate"), rget("quizzes"), rget("leaderboard"), rget("messages"),
+]);
+return NextResponse.json({ date, quizzes: quizzes || {}, leaderboard: leaderboard || [], messages: messages || [] });
+
   }
 
   return NextResponse.json({ error: "Unknown action" }, { status: 400 });
@@ -72,6 +73,13 @@ export async function POST(req: NextRequest) {
     filtered.push(body.entry);
     filtered.sort((a: any, b: any) => b.score - a.score);
     await rset("leaderboard", filtered);
+    return NextResponse.json({ ok: true });
+  }
+  if (action === "saveMessage") {
+    const messages = (await rget("messages")) || [];
+    messages.push({ name: body.name, text: body.text, time: new Date().toISOString() });
+    if (messages.length > 100) messages.splice(0, messages.length - 100);
+    await rset("messages", messages);
     return NextResponse.json({ ok: true });
   }
 
