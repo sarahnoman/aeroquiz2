@@ -471,6 +471,12 @@ function PlayerApp() {
                   {isToday && <Tag color={T.accent}>TODAY</Tag>}
                 </div>
                 <div style={{ fontSize: 12, color: T.muted }}>{quizzes[date].length} questions · {dateLb.length} players</div>
+                {quizzes[date].topic && (
+  <div style={{ fontSize: 13, fontWeight: 600, color: T.accent, marginTop: 2 }}>
+    {quizzes[date].topic}
+  </div>
+)}
+
               </div>
               <span style={{ color: T.accent, fontSize: 18 }}>→</span>
             </div>
