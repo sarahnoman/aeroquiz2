@@ -37,7 +37,11 @@ export async function GET(req: NextRequest) {
 return NextResponse.json({ date, quizzes: quizzes || {}, leaderboard: leaderboard || [], messages: messages || [] });
 
   }
-
+if (action === 'checkPassword') {
+  const pw = searchParams.get('pw');
+  const correct = process.env.ADMIN_PASSWORD;
+  return NextResponse.json({ ok: pw === correct });
+}
   return NextResponse.json({ error: "Unknown action" }, { status: 400 });
 }
 
@@ -82,11 +86,6 @@ export async function POST(req: NextRequest) {
     await rset("messages", messages);
     return NextResponse.json({ ok: true });
   }
-if (action === 'checkPassword') {
-  const pw = searchParams.get('pw');
-  const correct = process.env.ADMIN_PASSWORD;
-  return NextResponse.json({ ok: pw === correct });
-}
 
   return NextResponse.json({ error: "Unknown action" }, { status: 400 });
 }
