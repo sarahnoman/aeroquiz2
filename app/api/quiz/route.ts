@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
 
   if (action === "saveQuiz") {
     const quizzes = (await rget("quizzes")) || {};
-    quizzes[body.date] = body.questions;
+    quizzes[body.date] = { questions: body.questions, topic: body.topic || '' };
     await rset("quizzes", quizzes);
     await rset("activeDate", body.date);
     return NextResponse.json({ ok: true });
