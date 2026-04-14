@@ -201,7 +201,7 @@ function AdminPanel() {
 
   async function publishQuiz() {
     if (!questions.length) { setErr("No questions to publish."); return; }
-    await api("saveQuiz", { date: quizDate, questions });
+    await api('saveQuiz', { date: quizDate, questions, topic });
     const updated = { ...quizzes, [quizDate]: questions };
     setQuizzes(updated); setActiveDate(quizDate); setQuestions([]);
     showToast("Quiz published for " + quizDate); setTab("quizzes");
