@@ -157,13 +157,13 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter,sans-serif' }}>
+    <div style={{ minHeight: '100vh', background: T.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter,sans-serif' }}>
       <style>{css}</style>
-      <div style={{ background: panel, border: '1px solid ' + panelBorder, borderRadius: 16, padding: 40, width: 320 }}>
-        <div style={{ fontFamily: 'monospace', fontSize: 15, fontWeight: 600, color: accent, letterSpacing: 2, marginBottom: 8 }}>AEROQUIZ</div>
-        <div style={{ fontSize: 20, fontWeight: 700, color: textCol, marginBottom: 24 }}>Admin access</div>
+      <div style={{ background: T.panel, border: '1px solid ' + T.panelBorder, borderRadius: 16, padding: 40, width: 320 }}>
+        <div style={{ fontFamily: 'monospace', fontSize: 15, fontWeight: 600, color: T.accent, letterSpacing: 2, marginBottom: 8 }}>AEROQUIZ</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: T.text, marginBottom: 24 }}>Admin access</div>
         <Input placeholder='Password' type='password' value={pw} onChange={(e: any) => setPw(e.target.value)} onKeyDown={(e: any) => { if (e.key === 'Enter') check(); }} autoFocus />
-        {err && <div style={{ color: red, fontSize: 12, marginTop: 8 }}>{err}</div>}
+        {err && <div style={{ color: T.red, fontSize: 12, marginTop: 8 }}>{err}</div>}
         <PrimaryBtn onClick={check} style={{ marginTop: 16 }}>Enter</PrimaryBtn>
       </div>
     </div>
