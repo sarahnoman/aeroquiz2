@@ -142,6 +142,34 @@ function GlobalChat({ playerName }: { playerName: string }) {
 }
 
 // ── ADMIN ────────────────────────────────────────────────
+function AdminLogin({ onLogin }: { onLogin: () => void }) {
+  const [pw, setPw] = useState('');
+  const [err, setErr] = useState('');
+
+  async function check() {
+    const res = await fetch('/api/quiz?action=checkPassword&pw=' + encodeURIComponent(pw));
+    const data = await res.json();
+    if (data.ok) {
+      onLogin();
+    } else {
+      setErr('Incorrect password');
+    }
+  }
+
+  return (
+    <div style={{ minHeight: '100vh', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Inter,sans-serif' }}>
+      <style>{css}</style>
+      <div style={{ background: panel, border: '1px solid ' + panelBorder, borderRadius: 16, padding: 40, width: 320 }}>
+        <div style={{ fontFamily: 'monospace', fontSize: 15, fontWeight: 600, color: accent, letterSpacing: 2, marginBottom: 8 }}>AEROQUIZ</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: textCol, marginBottom: 24 }}>Admin access</div>
+        <Input placeholder='Password' type='password' value={pw} onChange={(e: any) => setPw(e.target.value)} onKeyDown={(e: any) => { if (e.key === 'Enter') check(); }} autoFocus />
+        {err && <div style={{ color: red, fontSize: 12, marginTop: 8 }}>{err}</div>}
+        <PrimaryBtn onClick={check} style={{ marginTop: 16 }}>Enter</PrimaryBtn>
+      </div>
+    </div>
+  );
+}
+
 function AdminPanel() {
   const [tab, setTab] = useState("generate");
   const [quizzes, setQuizzes] = useState<Record<string, any[]>>({});
