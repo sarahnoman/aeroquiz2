@@ -578,6 +578,8 @@ function PlayerApp() {
 
 export default function Page() {
   const [admin, setAdmin] = useState(false);
+  const [authed, setAuthed] = useState(false);
   useEffect(() => { setAdmin(isAdmin()); }, []);
+  if (admin && !authed) return <AdminLogin onLogin={() => setAuthed(true)} />;
   return admin ? <AdminPanel /> : <PlayerApp />;
 }
