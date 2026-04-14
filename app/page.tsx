@@ -255,6 +255,7 @@ function AdminPanel() {
               <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 20 }}>
                 <div style={{ fontSize: 11, color: T.muted, fontFamily: "monospace", letterSpacing: 2, marginBottom: 10 }}>QUIZ DATE</div>
                 <Input type="date" value={quizDate} onChange={(e: any) => setQuizDate(e.target.value)} style={{ width: "auto", colorScheme: "dark" }} />
+                <Input placeholder='Topic e.g. Take-off and Landing' value={topic} onChange={(e: any) => setTopic(e.target.value)} style={{ marginTop: 8 }} />
               </div>
               <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 20 }}>
                 <div style={{ fontSize: 11, color: T.muted, fontFamily: "monospace", letterSpacing: 2, marginBottom: 10 }}>QUESTIONS</div>
