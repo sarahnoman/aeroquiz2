@@ -178,6 +178,7 @@ function AdminPanel() {
   const [editData, setEditData] = useState<any>(null);
   const [numQ, setNumQ] = useState(20);
   const [quizDate, setQuizDate] = useState(today());
+  const [topic, setTopic] = useState('');
   const [err, setErr] = useState("");
   const [toast, setToast] = useState("");
   const [activeDate, setActiveDate] = useState<string | null>(null);
