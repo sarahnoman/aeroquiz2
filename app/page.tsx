@@ -337,7 +337,7 @@ function AdminPanel() {
                       {activeDate === date && <Tag color={T.green}>ACTIVE</Tag>}
                       {date === today() && <Tag color={T.accent}>TODAY</Tag>}
                     </div>
-                    <div style={{ fontSize: 12, color: T.muted }}>{quizzes[date].length} questions</div>
+                    <div style={{ fontSize: 12, color: T.muted }}>{(Array.isArray(quizzes[date]) ? quizzes[date] : (quizzes[date]?.questions || [])).length} questions</div>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
                     {activeDate !== date && <button onClick={() => setActive(date)} style={{ background: T.accentDim, border: "1px solid "+T.accent+"40", color: T.accent, borderRadius: 8, padding: "8px 14px", fontSize: 12, cursor: "pointer" }}>Set Active</button>}
