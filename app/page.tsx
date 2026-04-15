@@ -6,63 +6,46 @@ const today = () => new Date().toISOString().split("T")[0];
 const medal = (i: number) => ["🥇","🥈","🥉"][i] ?? `${i+1}.`;
 
 const T = {
-  bg: "#d8e2f0",
-  panel: "#ffffff",
-  panelBorder: "#c8d4e8",
-  header: "#1a2a4a",
-  accent: "#a8c8f0",
-  accentDark: "#1a2a4a",
-  accentMid: "#4a6a9a",
-  green: "#4ade80",
-  greenDim: "rgba(74,222,128,0.12)",
-  red: "#f87171",
-  redDim: "rgba(248,113,113,0.12)",
-  amber: "#fbbf24",
-  text: "#1a2a4a",
-  muted: "#6a8aaa",
-  subtle: "#c8d4e8",
-  cardBorder: "#dde8f5",
-  stripe: "#1a2a4a",
+  bg: "#080c14", panel: "rgba(12,20,36,0.95)", panelBorder: "rgba(56,189,248,0.12)",
+  accent: "#38bdf8", accentDim: "rgba(56,189,248,0.12)", green: "#4ade80",
+  greenDim: "rgba(74,222,128,0.12)", red: "#f87171", redDim: "rgba(248,113,113,0.12)",
+  amber: "#fbbf24", text: "#e2e8f0", muted: "rgba(148,163,184,0.7)",
+  subtle: "rgba(148,163,184,0.25)",
 };
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Carlito:ital,wght@0,400;0,700;1,400;1,700&display=swap');
   @keyframes spin{to{transform:rotate(360deg)}}
-  @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes slideIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:translateX(0)}}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
   *{box-sizing:border-box;}
-  body{background:#d8e2f0;}
+  body{font-family:'Carlito',sans-serif;}
   ::-webkit-scrollbar{width:4px}
-  ::-webkit-scrollbar-thumb{background:#c8d4e8;border-radius:99px}
-  ::placeholder{color:#a8c0d8}
-  input,textarea,button{font-family:'Carlito',sans-serif;}
+  ::-webkit-scrollbar-thumb{background:rgba(56,189,248,0.3);border-radius:99px}
+  ::placeholder{color:rgba(148,163,184,0.35)}
 `;
 
 const Spinner = () => (
-  <div style={{ width: 28, height: 28, border: "2px solid #dde8f5", borderTop: "2px solid #1a2a4a", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "16px auto" }} />
+  <div style={{ width: 32, height: 32, border: "2px solid rgba(56,189,248,0.12)", borderTop: "2px solid #38bdf8", borderRadius: "50%", animation: "spin 1s linear infinite", margin: "16px auto" }} />
 );
 
-const Tag = ({ children, color = T.header }: any) => (
-  <span style={{ fontSize: 9, fontFamily: "'Carlito',sans-serif", background: color, color: T.accent, borderRadius: 4, padding: "3px 8px", letterSpacing: 1.5, textTransform: "uppercase" as const }}>{children}</span>
+const Tag = ({ children, color = "#38bdf8" }: any) => (
+  <span style={{ fontSize: 10, fontFamily: "'Carlito',sans-serif", background: color+"18", border: "1px solid "+color+"40", color, borderRadius: 4, padding: "3px 8px", letterSpacing: 1, textTransform: "uppercase" as const }}>{children}</span>
 );
 
 const PrimaryBtn = ({ children, onClick, style = {} }: any) => (
-  <button onClick={onClick} style={{ background: T.header, border: "none", color: "#fff", borderRadius: 8, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "'Carlito',sans-serif", width: "100%", letterSpacing: 0.3, transition: "opacity 0.15s", ...style }}
-    onMouseOver={e => (e.currentTarget.style.opacity = "0.85")}
-    onMouseOut={e => (e.currentTarget.style.opacity = "1")}
-  >{children}</button>
+  <button onClick={onClick} style={{ background: "linear-gradient(135deg,rgba(56,189,248,0.2),rgba(56,189,248,0.08))", border: "1px solid #38bdf8", color: "#38bdf8", borderRadius: 8, padding: "12px 24px", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "'Carlito',sans-serif", width: "100%", letterSpacing: 0.5, ...style }}>{children}</button>
 );
 
 const GhostBtn = ({ children, onClick, style = {} }: any) => (
-  <button onClick={onClick} style={{ background: "#fff", border: "1px solid #c8d4e8", color: T.text, borderRadius: 8, padding: "10px 20px", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif", ...style }}>{children}</button>
+  <button onClick={onClick} style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(56,189,248,0.12)", color: "#e2e8f0", borderRadius: 8, padding: "10px 20px", fontSize: 14, cursor: "pointer", fontFamily: "'Carlito',sans-serif", ...style }}>{children}</button>
 );
 
 const Input = ({ style = {}, ...props }: any) => (
-  <input style={{ width: "100%", background: "#fff", border: "1px solid #c8d4e8", borderRadius: 8, padding: "11px 14px", color: T.text, fontSize: 14, outline: "none", fontFamily: "'Carlito',sans-serif", ...style }} {...props} />
+  <input style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(56,189,248,0.12)", borderRadius: 8, padding: "11px 14px", color: "#e2e8f0", fontSize: 15, outline: "none", fontFamily: "'Carlito',sans-serif", ...style }} {...props} />
 );
 
 const Textarea = ({ style = {}, ...props }: any) => (
-  <textarea style={{ width: "100%", background: "#fff", border: "1px solid #c8d4e8", borderRadius: 8, padding: "11px 14px", color: T.text, fontSize: 13, outline: "none", resize: "vertical" as const, minHeight: 90, fontFamily: "'Carlito',sans-serif", ...style }} {...props} />
+  <textarea style={{ width: "100%", background: "rgba(255,255,255,0.03)", border: "1px solid rgba(56,189,248,0.12)", borderRadius: 8, padding: "11px 14px", color: "#e2e8f0", fontSize: 14, outline: "none", resize: "vertical" as const, minHeight: 90, fontFamily: "'Carlito',sans-serif", ...style }} {...props} />
 );
 
 async function api(action: string, body?: any) {
@@ -119,49 +102,44 @@ function GlobalChat({ playerName }: { playerName: string }) {
   }
 
   return (
-    <div style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 12, overflow: "hidden", marginTop: 24 }}>
-      <div style={{ padding: "13px 18px", borderBottom: "1px solid #eef1f5", display: "flex", alignItems: "center", gap: 10, background: T.header }}>
-        <span style={{ fontSize: 14 }}>💬</span>
-        <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 11, color: T.accent, letterSpacing: 2 }}>CREW CHAT</span>
-        <span style={{ fontSize: 11, color: "#4a6a8a", marginLeft: "auto" }}>chat with your crew</span>
+    <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 16, overflow: "hidden", marginTop: 32 }}>
+      <div style={{ padding: "14px 18px", borderBottom: "1px solid rgba(56,189,248,0.08)", display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: 16 }}>💬</span>
+        <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 13, color: T.accent, letterSpacing: 2 }}>CREW CHAT</span>
+        <span style={{ fontSize: 12, color: T.muted, marginLeft: "auto" }}>Discuss quizzes, ask questions</span>
       </div>
-
-      <div style={{ height: 260, overflowY: "auto", padding: "14px 18px", display: "flex", flexDirection: "column", gap: 10, background: "#f8fafd" }}>
+      <div style={{ height: 300, overflowY: "auto", padding: "14px 18px", display: "flex", flexDirection: "column", gap: 10 }}>
         {messages.length === 0 && (
-          <div style={{ color: T.muted, fontSize: 13, textAlign: "center", marginTop: 70 }}>No messages yet — start the discussion! ✈️</div>
+          <div style={{ color: T.muted, fontSize: 14, textAlign: "center", marginTop: 80 }}>No messages yet. Start the discussion! ✈️</div>
         )}
         {messages.map((m: any, i: number) => (
           <div key={i} style={{ display: "flex", gap: 10, animation: "fadeIn 0.3s ease" }}>
-            <div style={{ width: 30, height: 30, borderRadius: "50%", background: T.header, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: T.accent, flexShrink: 0, fontFamily: "'Carlito',sans-serif" }}>
+            <div style={{ width: 32, height: 32, borderRadius: "50%", background: "rgba(56,189,248,0.15)", border: "1px solid rgba(56,189,248,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 700, color: T.accent, flexShrink: 0 }}>
               {m.name[0].toUpperCase()}
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 2 }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: T.text }}>{m.name}</span>
-                <span style={{ fontSize: 10, color: T.muted }}>{timeAgo(m.time)}</span>
+              <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 3 }}>
+                <span style={{ fontSize: 14, fontWeight: 700, color: T.text }}>{m.name}</span>
+                <span style={{ fontSize: 12, color: T.muted }}>{timeAgo(m.time)}</span>
               </div>
-              <div style={{ fontSize: 13, color: "#4a6a8a", lineHeight: 1.5 }}>{m.text}</div>
+              <div style={{ fontSize: 14, color: T.muted, lineHeight: 1.5 }}>{m.text}</div>
             </div>
           </div>
         ))}
         <div ref={bottomRef} />
       </div>
-
-      <div style={{ padding: "12px 18px", borderTop: "1px solid #eef1f5", display: "flex", flexDirection: "column", gap: 8, background: "#fff" }}>
+      <div style={{ padding: "12px 18px", borderTop: "1px solid rgba(56,189,248,0.08)", display: "flex", flexDirection: "column", gap: 8 }}>
         {!playerName && (
-          <Input placeholder="Your callsign" value={name} onChange={(e: any) => setName(e.target.value)} style={{ fontSize: 13 }} />
+          <Input placeholder="Your callsign" value={name} onChange={(e: any) => setName(e.target.value)} style={{ fontSize: 14 }} />
         )}
         <div style={{ display: "flex", gap: 8 }}>
-          <input
-            value={text}
-            onChange={e => setText(e.target.value)}
-            onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
-            placeholder="Say something to your crew…"
-            style={{ flex: 1, background: "#f8fafd", border: "1px solid #c8d4e8", borderRadius: 8, padding: "10px 14px", color: T.text, fontSize: 13, outline: "none", fontFamily: "'Carlito',sans-serif" }}
+          <input value={text} onChange={e => setText(e.target.value)} onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}
+            placeholder="Ask a question or share a thought..."
+            style={{ flex: 1, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(56,189,248,0.15)", borderRadius: 8, padding: "10px 14px", color: "#e2e8f0", fontSize: 14, outline: "none", fontFamily: "'Carlito',sans-serif" }}
           />
           <button onClick={send} disabled={sending || !text.trim() || !name.trim()}
-            style={{ background: text.trim() && name.trim() ? T.header : "#eef1f5", border: "none", color: text.trim() && name.trim() ? "#fff" : T.muted, borderRadius: 8, padding: "10px 16px", fontSize: 14, cursor: text.trim() && name.trim() ? "pointer" : "default", fontWeight: 700, transition: "all 0.2s" }}>
-            {sending ? "…" : "↑"}
+            style={{ background: text.trim() && name.trim() ? "linear-gradient(135deg,rgba(56,189,248,0.25),rgba(56,189,248,0.1))" : "rgba(255,255,255,0.04)", border: "1px solid "+(text.trim() && name.trim() ? "#38bdf8" : "rgba(56,189,248,0.12)"), color: text.trim() && name.trim() ? "#38bdf8" : T.muted, borderRadius: 8, padding: "10px 18px", fontSize: 15, cursor: text.trim() && name.trim() ? "pointer" : "default", fontWeight: 700, transition: "all 0.2s", fontFamily: "'Carlito',sans-serif" }}>
+            {sending ? "..." : "↑"}
           </button>
         </div>
       </div>
@@ -176,19 +154,17 @@ function AdminLogin({ onLogin }: { onLogin: () => void }) {
   async function check() {
     const res = await fetch('/api/quiz?action=checkPassword&pw=' + encodeURIComponent(pw));
     const data = await res.json();
-    if (data.ok) { onLogin(); } else { setErr('Wrong password ✈️'); }
+    if (data.ok) { onLogin(); } else { setErr('Incorrect password'); }
   }
 
   return (
     <div style={{ minHeight: '100vh', background: T.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Carlito',sans-serif" }}>
       <style>{css}</style>
-      <div style={{ background: '#fff', border: '1px solid #c8d4e8', borderRadius: 16, padding: 40, width: 320, boxShadow: "0 4px 24px rgba(26,42,74,0.08)" }}>
-        <div style={{ background: T.header, borderRadius: 10, padding: "16px 20px", marginBottom: 24, display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 16, fontWeight: 700, color: "#fff", letterSpacing: 4 }}>AERO<span style={{ color: T.accent }}>QUIZ</span></span>
-        </div>
-        <div style={{ fontSize: 18, fontWeight: 700, color: T.text, marginBottom: 20 }}>Admin access</div>
+      <div style={{ background: T.panel, border: '1px solid ' + T.panelBorder, borderRadius: 16, padding: 40, width: 340 }}>
+        <div style={{ fontFamily: "'Carlito',sans-serif", fontSize: 16, fontWeight: 600, color: T.accent, letterSpacing: 2, marginBottom: 8 }}>AEROQUIZ</div>
+        <div style={{ fontSize: 22, fontWeight: 700, color: T.text, marginBottom: 24 }}>Admin access</div>
         <Input placeholder='Password' type='password' value={pw} onChange={(e: any) => setPw(e.target.value)} onKeyDown={(e: any) => { if (e.key === 'Enter') check(); }} autoFocus />
-        {err && <div style={{ color: T.red, fontSize: 12, marginTop: 8 }}>{err}</div>}
+        {err && <div style={{ color: T.red, fontSize: 13, marginTop: 8 }}>{err}</div>}
         <PrimaryBtn onClick={check} style={{ marginTop: 16 }}>Enter</PrimaryBtn>
       </div>
     </div>
@@ -245,107 +221,105 @@ function AdminPanel() {
   return (
     <div style={{ minHeight: "100vh", background: T.bg, fontFamily: "'Carlito',sans-serif", color: T.text }}>
       <style>{css}</style>
-      <div style={{ background: T.header, padding: "0 48px", position: "sticky", top: 0, zIndex: 10 }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "14px 0", display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, fontSize: 16, color: "#fff", letterSpacing: 4 }}>AERO<span style={{ color: T.accent }}>QUIZ</span></span>
-          <Tag color={T.header}>ADMIN</Tag>
-          <div style={{ flex: 1 }} />
-          <div style={{ fontSize: 11, fontFamily: "'Carlito',sans-serif", color: "#4a6a8a" }}>{new Date().toUTCString().replace(" GMT", " UTC")}</div>
-        </div>
+      <div style={{ borderBottom: "1px solid rgba(56,189,248,0.12)", padding: "14px 32px", display: "flex", alignItems: "center", gap: 16, background: "rgba(8,12,20,0.95)", position: "sticky", top: 0, zIndex: 10 }}>
+        <div style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, fontSize: 16, color: T.accent, letterSpacing: 2 }}>AEROQUIZ ✈</div>
+        <Tag color="#f87171">ADMIN</Tag>
+        <div style={{ flex: 1 }} />
+        <div style={{ fontSize: 12, color: T.muted }}>{new Date().toUTCString().replace(" GMT", " UTC")}</div>
       </div>
 
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "32px 48px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, marginBottom: 28 }}>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "32px 24px" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginBottom: 32 }}>
           {[
-            { label: "Total Quizzes", value: Object.keys(quizzes).length },
-            { label: "Active Quiz", value: activeDate || "none" },
-            { label: "Players Today", value: todayLb.length },
-            { label: "Top Score", value: todayLb[0] ? todayLb[0].score+"/"+todayLb[0].total : "none" },
+            { label: "Total Quizzes", value: Object.keys(quizzes).length, accent: T.accent },
+            { label: "Active Quiz", value: activeDate || "none", accent: activeDate ? T.green : T.muted },
+            { label: "Players Today", value: todayLb.length, accent: T.accent },
+            { label: "Top Score", value: todayLb[0] ? todayLb[0].score+"/"+todayLb[0].total : "none", accent: T.accent },
           ].map((s, i) => (
-            <div key={i} style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 10, padding: "14px 16px" }}>
-              <div style={{ fontSize: 9, color: T.muted, fontFamily: "'Carlito',sans-serif", letterSpacing: 2, textTransform: "uppercase" as const, marginBottom: 4 }}>{s.label}</div>
-              <div style={{ fontSize: 15, fontWeight: 700, color: T.text }}>{s.value}</div>
+            <div key={i} style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 16 }}>
+              <div style={{ fontSize: 10, color: T.muted, letterSpacing: 2, textTransform: "uppercase" as const, marginBottom: 2 }}>{s.label}</div>
+              <div style={{ fontSize: 15, fontWeight: 600, color: s.accent }}>{s.value}</div>
             </div>
           ))}
         </div>
 
         <div style={{ display: "flex", gap: 8, marginBottom: 24 }}>
           {[["generate","+ New Quiz"],["quizzes","All Quizzes"],["scores","Live Scores"]].map(([id, label]) => (
-            <button key={id} onClick={() => setTab(id)} style={{ background: tab===id ? T.header : "#fff", border: "1px solid "+(tab===id ? T.header : "#c8d4e8"), color: tab===id ? "#fff" : T.muted, borderRadius: 8, padding: "8px 18px", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif", fontWeight: tab===id ? 600 : 400 }}>{label}</button>
+            <button key={id} onClick={() => setTab(id)} style={{ background: tab===id ? T.accentDim : "transparent", border: "1px solid "+(tab===id ? T.accent : T.panelBorder), color: tab===id ? T.accent : T.muted, borderRadius: 8, padding: "8px 18px", fontSize: 14, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>{label}</button>
           ))}
         </div>
 
         {tab === "generate" && (
           <div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 14, marginBottom: 18 }}>
-              <div style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 12, padding: 18 }}>
-                <div style={{ fontSize: 10, color: T.muted, fontFamily: "'Carlito',sans-serif", letterSpacing: 2, marginBottom: 10 }}>QUIZ DATE</div>
-                <Input type="date" value={quizDate} onChange={(e: any) => setQuizDate(e.target.value)} style={{ width: "auto", colorScheme: "light" }} />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 16, marginBottom: 20 }}>
+              <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 20 }}>
+                <div style={{ fontSize: 11, color: T.muted, letterSpacing: 2, marginBottom: 10 }}>QUIZ DATE</div>
+                <Input type="date" value={quizDate} onChange={(e: any) => setQuizDate(e.target.value)} style={{ width: "auto", colorScheme: "dark" }} />
                 <Input placeholder='Topic e.g. Take-off and Landing' value={topic} onChange={(e: any) => setTopic(e.target.value)} style={{ marginTop: 8 }} />
               </div>
-              <div style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 12, padding: 18 }}>
-                <div style={{ fontSize: 10, color: T.muted, fontFamily: "'Carlito',sans-serif", letterSpacing: 2, marginBottom: 10 }}>QUESTIONS</div>
+              <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 20 }}>
+                <div style={{ fontSize: 11, color: T.muted, letterSpacing: 2, marginBottom: 10 }}>QUESTIONS</div>
                 <div style={{ display: "flex", gap: 8 }}>
                   {[10,15,20].map(n => (
-                    <button key={n} onClick={() => {}} style={{ background: "#eef1f5", border: "1px solid #c8d4e8", color: T.text, borderRadius: 8, padding: "8px 14px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>{n}</button>
+                    <button key={n} style={{ background: "transparent", border: "1px solid "+T.panelBorder, color: T.muted, borderRadius: 8, padding: "8px 16px", fontSize: 15, fontWeight: 700, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>{n}</button>
                   ))}
                 </div>
               </div>
             </div>
 
-            <div style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 12, padding: 18, marginBottom: 18 }}>
-              <div style={{ fontSize: 10, color: T.muted, fontFamily: "'Carlito',sans-serif", letterSpacing: 2, marginBottom: 10 }}>PASTE QUESTIONS JSON</div>
-              <Textarea placeholder='Paste JSON array: [{"question":"...","options":["A","B","C","D"],"answer":0,"explanation":"..."}]' style={{ minHeight: 130 }}
+            <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 20, marginBottom: 20 }}>
+              <div style={{ fontSize: 11, color: T.muted, letterSpacing: 2, marginBottom: 10 }}>PASTE QUESTIONS JSON</div>
+              <Textarea placeholder='Paste JSON array: [{"question":"...","options":["A","B","C","D"],"answer":0,"explanation":"..."}]' style={{ minHeight: 140 }}
                 onChange={(e: any) => {
                   try { const p = JSON.parse(e.target.value); if (Array.isArray(p) && p.length > 0) { setQuestions(p); setErr(""); } } catch {}
                 }}
               />
-              {err && <div style={{ color: T.red, fontSize: 12, marginTop: 6 }}>{err}</div>}
+              {err && <div style={{ color: T.red, fontSize: 13, marginTop: 6 }}>{err}</div>}
             </div>
 
             {questions.length > 0 && (
               <>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-                  <span style={{ fontWeight: 600, color: T.text }}>{questions.length} questions loaded</span>
-                  <button onClick={publishQuiz} style={{ background: T.header, border: "none", color: "#fff", borderRadius: 8, padding: "9px 20px", fontSize: 13, fontWeight: 600, cursor: "pointer" }}>Publish for {quizDate}</button>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+                  <span style={{ fontWeight: 700, fontSize: 15 }}>{questions.length} questions loaded</span>
+                  <button onClick={publishQuiz} style={{ background: T.greenDim, border: "1px solid "+T.green, color: T.green, borderRadius: 8, padding: "9px 20px", fontSize: 14, fontWeight: 700, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>Publish for {quizDate}</button>
                 </div>
                 {questions.map((q: any, i: number) => (
-                  <div key={i} style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 10, padding: 16, marginBottom: 8 }}>
+                  <div key={i} style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 18, marginBottom: 10 }}>
                     {editIdx === i ? (
                       <>
                         <Textarea value={editData.question} onChange={(e: any) => setEditData({ ...editData, question: e.target.value })} style={{ marginBottom: 10 }} />
                         {editData.options.map((opt: string, oi: number) => (
                           <div key={oi} style={{ display: "flex", gap: 8, marginBottom: 6, alignItems: "center" }}>
-                            <button onClick={() => setEditData({ ...editData, answer: oi })} style={{ background: oi===editData.answer ? T.header : "#eef1f5", border: "1px solid "+(oi===editData.answer ? T.header : "#c8d4e8"), color: oi===editData.answer ? "#fff" : T.muted, borderRadius: 6, width: 30, height: 30, cursor: "pointer" }}>{"ABCD"[oi]}</button>
+                            <button onClick={() => setEditData({ ...editData, answer: oi })} style={{ background: oi===editData.answer ? "rgba(74,222,128,0.15)" : "transparent", border: "1px solid "+(oi===editData.answer ? T.green : T.panelBorder), color: oi===editData.answer ? T.green : T.muted, borderRadius: 6, width: 30, height: 30, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>{"ABCD"[oi]}</button>
                             <Input value={opt} onChange={(e: any) => { const o=[...editData.options]; o[oi]=e.target.value; setEditData({...editData,options:o}); }} style={{ flex: 1 }} />
                           </div>
                         ))}
                         <Textarea placeholder="Explanation" value={editData.explanation} onChange={(e: any) => setEditData({...editData,explanation:e.target.value})} style={{ marginTop: 8, minHeight: 60 }} />
                         <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-                          <button onClick={saveEdit} style={{ background: T.header, border: "none", color: "#fff", borderRadius: 8, padding: "8px 18px", fontSize: 13, cursor: "pointer" }}>Save</button>
+                          <button onClick={saveEdit} style={{ background: T.greenDim, border: "1px solid "+T.green, color: T.green, borderRadius: 8, padding: "8px 18px", fontSize: 14, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>Save</button>
                           <GhostBtn onClick={() => setEditIdx(null)}>Cancel</GhostBtn>
                         </div>
                       </>
                     ) : (
                       <>
                         <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
-                          <div style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.5, flex: 1 }}><span style={{ color: T.muted, marginRight: 8, fontSize: 12, fontFamily: "'Carlito',sans-serif" }}>{String(i+1).padStart(2,"0")}</span>{q.question}</div>
+                          <div style={{ fontWeight: 600, fontSize: 15, lineHeight: 1.5, flex: 1 }}><span style={{ color: T.muted, marginRight: 8, fontSize: 13 }}>{String(i+1).padStart(2,"0")}</span>{q.question}</div>
                           <div style={{ display: "flex", gap: 6 }}>
-                            <button onClick={() => startEdit(i)} style={{ background: "#eef1f5", border: "1px solid #c8d4e8", color: T.muted, borderRadius: 6, padding: "6px 10px", fontSize: 12, cursor: "pointer" }}>Edit</button>
-                            <button onClick={() => deleteQ(i)} style={{ background: T.redDim, border: "1px solid rgba(248,113,113,0.3)", color: T.red, borderRadius: 6, padding: "6px 10px", fontSize: 12, cursor: "pointer" }}>Del</button>
+                            <button onClick={() => startEdit(i)} style={{ background: "transparent", border: "1px solid rgba(56,189,248,0.12)", color: T.muted, borderRadius: 6, padding: "6px 10px", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>Edit</button>
+                            <button onClick={() => deleteQ(i)} style={{ background: T.redDim, border: "1px solid rgba(248,113,113,0.3)", color: T.red, borderRadius: 6, padding: "6px 10px", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>Del</button>
                           </div>
                         </div>
                         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 6, marginTop: 10 }}>
                           {q.options.map((opt: string, oi: number) => (
-                            <div key={oi} style={{ fontSize: 12, color: oi===q.answer ? "#16a34a" : T.muted, display: "flex", gap: 6 }}><span style={{ fontWeight: 700 }}>{"ABCD"[oi]}.</span>{opt}{oi===q.answer && " ✓"}</div>
+                            <div key={oi} style={{ fontSize: 13, color: oi===q.answer ? T.green : T.muted, display: "flex", gap: 6 }}><span style={{ fontWeight: 600 }}>{"ABCD"[oi]}.</span>{opt}{oi===q.answer && " ✓"}</div>
                           ))}
                         </div>
-                        <div style={{ fontSize: 12, color: T.muted, marginTop: 8, fontStyle: "italic", borderTop: "1px solid #eef1f5", paddingTop: 8 }}>{q.explanation}</div>
+                        <div style={{ fontSize: 13, color: T.muted, marginTop: 8, fontStyle: "italic", borderTop: "1px solid rgba(56,189,248,0.08)", paddingTop: 8 }}>{q.explanation}</div>
                       </>
                     )}
                   </div>
                 ))}
-                <button onClick={publishQuiz} style={{ background: T.header, border: "none", color: "#fff", borderRadius: 8, padding: "12px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer", width: "100%", marginTop: 8 }}>Publish Quiz for {quizDate}</button>
+                <button onClick={publishQuiz} style={{ background: T.greenDim, border: "1px solid "+T.green, color: T.green, borderRadius: 8, padding: "12px 24px", fontSize: 15, fontWeight: 700, cursor: "pointer", width: "100%", fontFamily: "'Carlito',sans-serif" }}>Publish Quiz for {quizDate}</button>
               </>
             )}
           </div>
@@ -353,21 +327,21 @@ function AdminPanel() {
 
         {tab === "quizzes" && (
           <div>
-            {Object.keys(quizzes).length === 0 && <div style={{ color: T.muted, fontSize: 13 }}>No quizzes yet.</div>}
+            {Object.keys(quizzes).length === 0 && <div style={{ color: T.muted, fontSize: 14 }}>No quizzes yet.</div>}
             {Object.keys(quizzes).sort().reverse().map(date => (
-              <div key={date} style={{ background: "#fff", border: "1px solid "+(activeDate===date ? T.header : "#c8d4e8"), borderLeft: "4px solid "+(activeDate===date ? T.header : "#c8d4e8"), borderRadius: 10, padding: 16, marginBottom: 10 }}>
+              <div key={date} style={{ background: T.panel, border: "1px solid "+(activeDate===date ? T.accent : T.panelBorder), borderRadius: 12, padding: 18, marginBottom: 10 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                   <div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
-                      <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 600, fontSize: 14 }}>{date}</span>
-                      {activeDate === date && <Tag>ACTIVE</Tag>}
-                      {date === today() && <span style={{ fontSize: 9, background: "#eef1f5", color: T.muted, borderRadius: 4, padding: "3px 8px", letterSpacing: 1.5, textTransform: "uppercase" as const, fontFamily: "'Carlito',sans-serif" }}>TODAY</span>}
+                      <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 600, fontSize: 16 }}>{date}</span>
+                      {activeDate === date && <Tag color={T.green}>ACTIVE</Tag>}
+                      {date === today() && <Tag color={T.accent}>TODAY</Tag>}
                     </div>
-                    <div style={{ fontSize: 12, color: T.muted }}>{getQuizList(quizzes, date).length} questions{getQuizTopic(quizzes, date) ? " · " + getQuizTopic(quizzes, date) : ""}</div>
+                    <div style={{ fontSize: 13, color: T.muted }}>{getQuizList(quizzes, date).length} questions{getQuizTopic(quizzes, date) ? " · " + getQuizTopic(quizzes, date) : ""}</div>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
-                    {activeDate !== date && <button onClick={() => setActive(date)} style={{ background: "#eef1f5", border: "1px solid #c8d4e8", color: T.text, borderRadius: 8, padding: "8px 14px", fontSize: 12, cursor: "pointer" }}>Set Active</button>}
-                    <button onClick={() => deleteQuiz(date)} style={{ background: T.redDim, border: "1px solid rgba(248,113,113,0.2)", color: T.red, borderRadius: 8, padding: "8px 14px", fontSize: 12, cursor: "pointer" }}>Delete</button>
+                    {activeDate !== date && <button onClick={() => setActive(date)} style={{ background: T.accentDim, border: "1px solid "+T.accent+"40", color: T.accent, borderRadius: 8, padding: "8px 14px", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>Set Active</button>}
+                    <button onClick={() => deleteQuiz(date)} style={{ background: T.redDim, border: "1px solid rgba(248,113,113,0.2)", color: T.red, borderRadius: 8, padding: "8px 14px", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>Delete</button>
                   </div>
                 </div>
               </div>
@@ -377,19 +351,19 @@ function AdminPanel() {
 
         {tab === "scores" && (
           <div>
-            <div style={{ fontSize: 10, color: T.muted, fontFamily: "'Carlito',sans-serif", letterSpacing: 2, marginBottom: 16 }}>LEADERBOARD — {activeDate || "NO ACTIVE QUIZ"}</div>
-            {todayLb.length === 0 && <div style={{ color: T.muted, fontSize: 13 }}>No scores yet.</div>}
+            <div style={{ fontSize: 12, color: T.muted, letterSpacing: 2, marginBottom: 16 }}>LEADERBOARD — {activeDate || "NO ACTIVE QUIZ"}</div>
+            {todayLb.length === 0 && <div style={{ color: T.muted, fontSize: 14 }}>No scores yet.</div>}
             {todayLb.map((e: any, i: number) => (
-              <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, background: "#fff", border: "1px solid "+(i===0 ? T.header+"40" : "#c8d4e8"), borderLeft: i===0 ? "4px solid "+T.header : "1px solid #c8d4e8", borderRadius: 10, padding: "12px 18px", marginBottom: 8 }}>
-                <span style={{ fontSize: 18, width: 28 }}>{medal(i)}</span>
-                <span style={{ flex: 1, fontWeight: 600 }}>{e.name}</span>
-                <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, color: T.header }}>{e.score}/{e.total}</span>
+              <div key={i} style={{ display: "flex", alignItems: "center", gap: 14, background: T.panel, border: "1px solid "+(i===0 ? T.accent+"40" : T.panelBorder), borderRadius: 10, padding: "12px 18px", marginBottom: 8 }}>
+                <span style={{ fontSize: 20, width: 28 }}>{medal(i)}</span>
+                <span style={{ flex: 1, fontWeight: 600, fontSize: 15 }}>{e.name}</span>
+                <span style={{ fontWeight: 700, color: T.accent, fontSize: 15 }}>{e.score}/{e.total}</span>
               </div>
             ))}
           </div>
         )}
       </div>
-      {toast && <div style={{ position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", background: T.header, color: "#fff", borderRadius: 8, padding: "10px 20px", fontSize: 13, zIndex: 100 }}>✓ {toast}</div>}
+      {toast && <div style={{ position: "fixed", bottom: 24, left: "50%", transform: "translateX(-50%)", background: T.greenDim, border: "1px solid "+T.green, color: T.green, borderRadius: 8, padding: "10px 20px", fontSize: 14, zIndex: 100 }}>✓ {toast}</div>}
     </div>
   );
 }
@@ -454,159 +428,135 @@ function PlayerApp() {
     </div>
   );
 
-  const Header = ({ back, onBack }: any) => (
-    <div style={{ background: T.header, padding: "0 28px", position: "sticky", top: 0, zIndex: 10 }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "13px 0", display: "flex", alignItems: "center", gap: 14 }}>
-        {back && <button onClick={onBack} style={{ background: "transparent", border: "none", color: "#4a6a8a", fontSize: 13, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>← Back</button>}
-        <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, fontSize: 15, color: "#fff", letterSpacing: 4 }}>AERO<span style={{ color: T.accent }}>QUIZ</span></span>
-      </div>
+  const Nav = ({ back, onBack }: any) => (
+    <div style={{ borderBottom: "1px solid rgba(56,189,248,0.12)", padding: "13px 28px", display: "flex", alignItems: "center", gap: 14, background: "rgba(8,12,20,0.95)", position: "sticky", top: 0, zIndex: 10 }}>
+      {back && <button onClick={onBack} style={{ background: "transparent", border: "none", color: T.muted, fontSize: 14, cursor: "pointer", fontFamily: "'Carlito',sans-serif" }}>← Back</button>}
+      <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, fontSize: 16, color: T.accent, letterSpacing: 3 }}>AEROQUIZ</span>
+      <span style={{ fontSize: 20, color: T.accent }}>✈</span>
     </div>
   );
 
-  const Wrap = ({ children, maxW = 600, back = false, onBack = () => setScreen("home") }: any) => (
+  const Wrap = ({ children, maxW = 640, back = false, onBack = () => setScreen("home") }: any) => (
     <div style={{ minHeight: "100vh", background: T.bg, fontFamily: "'Carlito',sans-serif", color: T.text, display: "flex", flexDirection: "column" }}>
       <style>{css}</style>
-      <Header back={back} onBack={onBack} />
-      <div style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "28px 48px" }}>
-        <div style={{ width: "100%", maxWidth: maxW, animation: "fadeIn 0.3s ease" }}>{children}</div>
+      <Nav back={back} onBack={onBack} />
+      <div style={{ flex: 1, display: "flex", alignItems: "flex-start", justifyContent: "center", padding: 24 }}>
+        <div style={{ width: "100%", maxWidth: maxW, animation: "fadeIn 0.35s ease" }}>{children}</div>
       </div>
     </div>
   );
 
   if (screen === "home") return (
-    <div style={{ minHeight: "100vh", background: T.bg, fontFamily: "'Carlito',sans-serif", color: T.text }}>
-      <style>{css}</style>
-
-      {/* Hero header */}
-      <div style={{ background: T.header, padding: "0 48px" }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: "16px 0 0" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32 }}>
-            <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, fontSize: 18, color: "#fff", letterSpacing: 4 }}>AERO<span style={{ color: T.accent }}>QUIZ</span></span>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <span style={{ fontSize: 12, color: "#4a6a8a", fontFamily: "'Carlito',sans-serif" }}>ZHAW AVIATION</span>
-              <span style={{ fontSize: 24, color: T.accent }}>✈</span>
-            </div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
-            <div>
-              <div style={{ fontSize: 11, color: "#4a6a8a", letterSpacing: 4, fontFamily: "'Carlito',sans-serif", marginBottom: 12 }}>DAILY BRIEFING</div>
-              <div style={{ fontSize: 52, fontWeight: 700, color: "#fff", lineHeight: 1.1, marginBottom: 10, whiteSpace: "nowrap" as const }}>Choose your <span style={{ color: T.accent }}>quiz.</span></div>
-              <div style={{ fontSize: 15, color: "#4a6a8a", marginBottom: 28 }}>Select a session and compete with your crew.</div>
-            </div>
-            <div style={{ fontSize: 180, opacity: 0.15, transform: "rotate(-10deg)", lineHeight: 1, marginBottom: 8, flexShrink: 0 }}>✈</div>
+    <Wrap maxW={720}>
+      <div style={{ marginBottom: 28 }}>
+        <div style={{ position: "relative", background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 16, padding: "28px 32px", marginBottom: 24, overflow: "hidden" }}>
+          <div style={{ position: "absolute", right: 20, top: "50%", transform: "translateY(-50%)", fontSize: 150, opacity: 0.05, lineHeight: 1, pointerEvents: "none", userSelect: "none" as const }}>✈</div>
+          <div style={{ fontFamily: "'Carlito',sans-serif", fontSize: 11, color: T.accent, letterSpacing: 4, marginBottom: 8 }}>DAILY BRIEFING</div>
+          <div style={{ fontSize: 38, fontWeight: 700, color: T.text, marginBottom: 4, lineHeight: 1.2 }}>Choose your <span style={{ color: T.accent }}>quiz.</span></div>
+          <div style={{ color: T.muted, fontSize: 15 }}>Select a session and compete with your crew.</div>
+          <div style={{ marginTop: 16, display: "flex", gap: 20 }}>
+            <span style={{ fontSize: 13, color: T.muted }}><span style={{ color: T.accent, fontWeight: 700 }}>{quizDates.length}</span> sessions</span>
+            <span style={{ fontSize: 13, color: T.muted }}><span style={{ color: T.accent, fontWeight: 700 }}>{leaderboard.length}</span> total plays</span>
           </div>
         </div>
       </div>
 
-      {/* Quiz list */}
-      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "28px 48px 40px" }}>
-        <div style={{ fontSize: 10, color: T.muted, letterSpacing: 3, fontFamily: "'Carlito',sans-serif", marginBottom: 16 }}>SESSIONS</div>
+      {quizDates.length === 0 && (
+        <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 14, padding: 24, textAlign: "center", color: T.muted, fontSize: 14 }}>NO QUIZZES AVAILABLE — STAND BY</div>
+      )}
 
-        {quizDates.length === 0 && (
-          <div style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 12, padding: 24, textAlign: "center", color: T.muted, fontSize: 13 }}>No quizzes yet — stand by ✈️</div>
-        )}
-
-        {quizDates.map(date => {
-          const isToday = date === today();
-          const dateLb = leaderboard.filter((e: any) => e.date === date).sort((a: any, b: any) => b.score - a.score);
-          const qList = getQuizList(quizzes, date);
-          const qTopic = getQuizTopic(quizzes, date);
-          return (
-            <div key={date} onClick={() => { setSelectedDate(date); setScreen("name"); setErr(""); }}
-              style={{ background: "#fff", border: "1px solid #c8d4e8", borderLeft: "4px solid "+(isToday ? T.header : "#c8d4e8"), borderRadius: 10, padding: "18px 20px", marginBottom: 10, cursor: "pointer", animation: "slideIn 0.3s ease", transition: "box-shadow 0.15s" }}
-              onMouseOver={e => (e.currentTarget.style.boxShadow = "0 4px 16px rgba(26,42,74,0.08)")}
-              onMouseOut={e => (e.currentTarget.style.boxShadow = "none")}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 600, fontSize: 14, color: T.text }}>{date}</span>
-                    {isToday && <Tag>TODAY</Tag>}
-                  </div>
-                  {qTopic && <div style={{ fontSize: 13, color: T.accentMid, fontWeight: 500, marginBottom: 3 }}>{qTopic}</div>}
-                  <div style={{ fontSize: 11, color: T.muted }}>{qList.length} questions · {dateLb.length} players</div>
-                  {dateLb.slice(0,3).length > 0 && (
-                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" as const, marginTop: 10 }}>
-                      {dateLb.slice(0,3).map((e: any, i: number) => (
-                        <div key={i} style={{ background: "#f0f5ff", border: "1px solid #c8d4e8", borderRadius: 20, padding: "3px 10px", fontSize: 11, display: "flex", alignItems: "center", gap: 5 }}>
-                          <span>{medal(i)}</span>
-                          <span style={{ fontWeight: 600, color: T.text }}>{e.name}</span>
-                          <span style={{ color: T.accentMid, fontFamily: "'Carlito',sans-serif", fontSize: 10 }}>{e.score}/{e.total}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+      {quizDates.map(date => {
+        const isToday = date === today();
+        const dateLb = leaderboard.filter((e: any) => e.date === date).sort((a: any, b: any) => b.score - a.score);
+        const qList = getQuizList(quizzes, date);
+        const qTopic = getQuizTopic(quizzes, date);
+        return (
+          <div key={date} onClick={() => { setSelectedDate(date); setScreen("name"); setErr(""); }}
+            style={{ background: T.panel, border: "1px solid "+(isToday ? T.accent : T.panelBorder), borderRadius: 14, padding: 20, marginBottom: 12, cursor: "pointer", transition: "border-color 0.2s" }}
+            onMouseOver={e => (e.currentTarget.style.borderColor = T.accent)}
+            onMouseOut={e => (e.currentTarget.style.borderColor = isToday ? T.accent : "rgba(56,189,248,0.12)")}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                  <span style={{ fontFamily: "'Carlito',sans-serif", fontWeight: 700, fontSize: 17 }}>{date}</span>
+                  {isToday && <Tag color={T.accent}>TODAY</Tag>}
                 </div>
-                <span style={{ color: T.subtle, fontSize: 18, marginLeft: 12, flexShrink: 0 }}>→</span>
+                {qTopic && <div style={{ fontSize: 14, color: T.accent, marginBottom: 3, fontWeight: 600 }}>{qTopic}</div>}
+                <div style={{ fontSize: 13, color: T.muted }}>{qList.length} questions · {dateLb.length} players</div>
               </div>
+              <span style={{ color: T.accent, fontSize: 20 }}>→</span>
             </div>
-          );
-        })}
+            {dateLb.slice(0,3).length > 0 && (
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" as const }}>
+                {dateLb.slice(0,3).map((e: any, i: number) => (
+                  <div key={i} style={{ background: "rgba(255,255,255,0.04)", borderRadius: 8, padding: "5px 10px", fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
+                    <span>{medal(i)}</span><span style={{ fontWeight: 600 }}>{e.name}</span><span style={{ color: T.accent }}>{e.score}/{e.total}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
+      })}
 
-        <GlobalChat playerName={playerName} />
+      <GlobalChat playerName={playerName} />
 
-        <div style={{ textAlign: "center", marginTop: 32, fontSize: 12, color: T.muted }}>
-          made with ✈️ — <span style={{ color: T.header, fontWeight: 600 }}>by Sarah</span> 🫶
-        </div>
+      <div style={{ textAlign: "center", marginTop: 28, fontSize: 13, color: T.muted }}>
+        made with ✈️ — <span style={{ color: T.accent, fontWeight: 700 }}>by Sarah</span> 🫶
       </div>
-    </div>
+    </Wrap>
   );
 
   if (screen === "name") return (
     <Wrap back onBack={() => setScreen("home")}>
-      <div style={{ fontFamily: "'Carlito',sans-serif", fontSize: 10, color: T.muted, letterSpacing: 4, marginBottom: 16 }}>QUIZ — {selectedDate}</div>
-      <div style={{ fontSize: 24, fontWeight: 700, marginBottom: 6 }}>Enter your callsign</div>
-      <div style={{ color: T.muted, fontSize: 13, marginBottom: 20 }}>{questions.length} questions · your score will appear on the leaderboard.</div>
+      <div style={{ fontFamily: "'Carlito',sans-serif", fontSize: 11, color: T.accent, letterSpacing: 4, marginBottom: 16 }}>QUIZ — {selectedDate}</div>
+      <div style={{ fontSize: 26, fontWeight: 800, marginBottom: 6 }}>Enter your callsign</div>
+      <div style={{ color: T.muted, fontSize: 15, marginBottom: 20 }}>{questions.length} questions · your score will appear on the leaderboard.</div>
       {quizLb.length > 0 && (
-        <div style={{ background: "#fff", border: "1px solid #c8d4e8", borderRadius: 12, padding: 16, marginBottom: 20 }}>
-          <div style={{ fontSize: 10, color: T.muted, fontFamily: "'Carlito',sans-serif", letterSpacing: 2, marginBottom: 10 }}>CURRENT LEADERBOARD</div>
+        <div style={{ background: T.panel, border: "1px solid rgba(56,189,248,0.12)", borderRadius: 12, padding: 16, marginBottom: 20 }}>
+          <div style={{ fontSize: 11, color: T.muted, letterSpacing: 2, marginBottom: 10 }}>CURRENT LEADERBOARD</div>
           {quizLb.slice(0,5).map((e: any, i: number) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
-              <span style={{ fontSize: 16, width: 24 }}>{medal(i)}</span>
-              <span style={{ flex: 1, fontSize: 13, fontWeight: 600 }}>{e.name}</span>
-              <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 13, color: T.header }}>{e.score}/{e.total}</span>
+              <span style={{ fontSize: 18, width: 24 }}>{medal(i)}</span>
+              <span style={{ flex: 1, fontSize: 14, fontWeight: 600 }}>{e.name}</span>
+              <span style={{ fontSize: 14, color: T.accent }}>{e.score}/{e.total}</span>
             </div>
           ))}
         </div>
       )}
       <Input placeholder="e.g. Maverick" value={playerName} onChange={(e: any) => setPlayerName(e.target.value)} onKeyDown={(e: any) => e.key === "Enter" && startQuiz()} autoFocus />
-      {err && <div style={{ color: T.red, fontSize: 12, marginTop: 8 }}>{err}</div>}
-      <PrimaryBtn onClick={startQuiz} style={{ marginTop: 16 }}>Confirm & Start →</PrimaryBtn>
+      {err && <div style={{ color: T.red, fontSize: 13, marginTop: 8 }}>{err}</div>}
+      <PrimaryBtn onClick={startQuiz} style={{ marginTop: 16 }}>CONFIRM & START →</PrimaryBtn>
     </Wrap>
   );
 
   if (screen === "quiz") return (
-    <Wrap maxW={640} back onBack={() => setScreen("name")}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-        <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 11, color: T.muted }}>{String(current+1).padStart(2,"0")} / {String(questions.length).padStart(2,"0")}</span>
-        <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 13, color: T.header, fontWeight: 700 }}>⭐ {score} PTS</span>
+    <Wrap maxW={680} back onBack={() => setScreen("name")}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+        <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 12, color: T.muted }}>{String(current+1).padStart(2,"0")} / {String(questions.length).padStart(2,"0")}</span>
+        <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 14, color: T.accent, fontWeight: 700 }}>⭐ {score} PTS</span>
       </div>
-      <div style={{ height: 4, background: "#dde8f5", borderRadius: 99, marginBottom: 24, overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${(current/questions.length)*100}%`, background: T.header, borderRadius: 99, transition: "width 0.5s ease" }} />
+      <div style={{ height: 3, background: "rgba(255,255,255,0.06)", borderRadius: 99, marginBottom: 26, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${(current/questions.length)*100}%`, background: T.accent, borderRadius: 99, transition: "width 0.5s ease" }} />
       </div>
-      <div style={{ fontSize: 17, fontWeight: 600, lineHeight: 1.65, marginBottom: 20, color: T.text }}>{q.question}</div>
+      <div style={{ fontSize: 18, fontWeight: 600, lineHeight: 1.65, marginBottom: 20 }}>{q.question}</div>
       {q.options?.map((opt: string, i: number) => {
         const isCorrect = i === q.answer, isChosen = i === selected;
-        let bg = "#fff", border = "#c8d4e8", color = T.text;
-        if (showFeedback) {
-          if (isCorrect) { bg = "#f0fdf4"; border = "#86efac"; }
-          else if (isChosen) { bg = "#fef2f2"; border = "#fca5a5"; }
-        }
         return (
-          <button key={i} onClick={() => handleAnswer(i)}
-            style={{ width: "100%", textAlign: "left", background: bg, border: "1px solid "+border, borderRadius: 10, padding: "13px 16px", color, fontSize: 14, cursor: showFeedback ? "default" : "pointer", marginBottom: 8, display: "flex", alignItems: "center", gap: 12, transition: "all 0.2s", fontFamily: "'Carlito',sans-serif" }}>
-            <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 11, fontWeight: 700, color: showFeedback ? isCorrect ? "#16a34a" : isChosen ? T.red : T.subtle : T.subtle, minWidth: 20 }}>{"ABCD"[i]}</span>
+          <button key={i} onClick={() => handleAnswer(i)} style={{ width: "100%", textAlign: "left", background: showFeedback ? isCorrect ? "rgba(74,222,128,0.1)" : isChosen ? "rgba(248,113,113,0.1)" : "rgba(255,255,255,0.02)" : "rgba(255,255,255,0.03)", border: "1px solid "+(showFeedback ? isCorrect ? T.green : isChosen ? T.red : T.panelBorder : T.panelBorder), borderRadius: 10, padding: "14px 16px", color: T.text, fontSize: 15, cursor: showFeedback ? "default" : "pointer", marginBottom: 8, display: "flex", alignItems: "center", gap: 12, transition: "all 0.2s", fontFamily: "'Carlito',sans-serif" }}>
+            <span style={{ fontSize: 12, fontWeight: 700, color: showFeedback ? isCorrect ? T.green : isChosen ? T.red : T.subtle : T.subtle, minWidth: 20 }}>{"ABCD"[i]}</span>
             <span style={{ lineHeight: 1.5 }}>{opt}</span>
-            {showFeedback && isCorrect && <span style={{ marginLeft: "auto", color: "#16a34a" }}>✓</span>}
+            {showFeedback && isCorrect && <span style={{ marginLeft: "auto", color: T.green }}>✓</span>}
             {showFeedback && isChosen && !isCorrect && <span style={{ marginLeft: "auto", color: T.red }}>✗</span>}
           </button>
         );
       })}
       {showFeedback && (
-        <div style={{ background: "#f0f5ff", border: "1px solid #c8d4e8", borderRadius: 10, padding: "14px 16px", marginTop: 8 }}>
-          <div style={{ fontSize: 10, fontFamily: "'Carlito',sans-serif", color: T.accentMid, letterSpacing: 2, marginBottom: 6 }}>DEBRIEF</div>
-          <div style={{ color: "#4a6a8a", fontSize: 13, lineHeight: 1.6 }}>{q.explanation}</div>
-          <PrimaryBtn onClick={next} style={{ marginTop: 14 }}>{current+1 < questions.length ? "Next question →" : "See results →"}</PrimaryBtn>
+        <div style={{ background: "rgba(56,189,248,0.05)", border: "1px solid rgba(56,189,248,0.12)", borderRadius: 10, padding: "14px 16px", marginTop: 8 }}>
+          <div style={{ fontSize: 12, color: T.accent, letterSpacing: 2, marginBottom: 6 }}>DEBRIEF</div>
+          <div style={{ color: T.muted, fontSize: 14, lineHeight: 1.6 }}>{q.explanation}</div>
+          <PrimaryBtn onClick={next} style={{ marginTop: 14 }}>{current+1 < questions.length ? "NEXT QUESTION →" : "SEE RESULTS →"}</PrimaryBtn>
         </div>
       )}
     </Wrap>
@@ -615,26 +565,26 @@ function PlayerApp() {
   if (screen === "result") return (
     <Wrap back onBack={() => setScreen("home")}>
       <div style={{ textAlign: "center", marginBottom: 24 }}>
-        <div style={{ fontSize: 48, marginBottom: 8 }}>{pct>=0.8?"🎯":pct>=0.5?"📋":"📚"}</div>
-        <div style={{ fontFamily: "'Carlito',sans-serif", fontSize: 10, color: T.muted, letterSpacing: 4, marginBottom: 8 }}>MISSION DEBRIEF — {selectedDate}</div>
-        <div style={{ fontSize: 24, fontWeight: 700, marginBottom: 4 }}>{playerName}</div>
-        <div style={{ fontSize: 52, fontWeight: 800, fontFamily: "'Carlito',sans-serif", color: pct>=0.8?"#16a34a":pct>=0.5?T.amber:T.red }}>{score}<span style={{ fontSize: 22, color: T.muted }}>/{questions.length}</span></div>
-        <div style={{ color: T.muted, fontSize: 13, marginTop: 4 }}>{pct>=0.8?"Outstanding. Cleared for departure. ✈️":pct>=0.5?"Passing grade. More study recommended.":"Below minimums. Additional training required."}</div>
+        <div style={{ fontSize: 56, marginBottom: 8 }}>{pct>=0.8?"🎯":pct>=0.5?"📋":"📚"}</div>
+        <div style={{ fontFamily: "'Carlito',sans-serif", fontSize: 11, color: T.accent, letterSpacing: 4, marginBottom: 8 }}>MISSION DEBRIEF — {selectedDate}</div>
+        <div style={{ fontSize: 28, fontWeight: 800, marginBottom: 4 }}>{playerName}</div>
+        <div style={{ fontSize: 56, fontWeight: 800, color: pct>=0.8?T.green:pct>=0.5?T.amber:T.red }}>{score}<span style={{ fontSize: 24, color: T.muted }}>/{questions.length}</span></div>
+        <div style={{ color: T.muted, fontSize: 15, marginTop: 4 }}>{pct>=0.8?"Outstanding. Cleared for departure. ✈️":pct>=0.5?"Passing grade. More study recommended.":"Below minimums. Additional training required."}</div>
       </div>
-      <div style={{ height: 6, background: "#dde8f5", borderRadius: 99, marginBottom: 24, overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${pct*100}%`, background: pct>=0.8?"#16a34a":pct>=0.5?T.amber:T.red, borderRadius: 99 }} />
+      <div style={{ height: 6, background: "rgba(255,255,255,0.06)", borderRadius: 99, marginBottom: 24, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${pct*100}%`, background: pct>=0.8?T.green:pct>=0.5?T.amber:T.red, borderRadius: 99 }} />
       </div>
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 10, fontFamily: "'Carlito',sans-serif", color: T.muted, letterSpacing: 2, marginBottom: 12 }}>LEADERBOARD</div>
+        <div style={{ fontSize: 11, color: T.muted, letterSpacing: 2, marginBottom: 12 }}>QUIZ LEADERBOARD</div>
         {quizLb.slice(0,5).map((e: any, i: number) => (
-          <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, background: e.name===playerName ? "#f0f5ff" : "#fff", border: "1px solid "+(e.name===playerName ? T.header+"30" : "#c8d4e8"), borderLeft: e.name===playerName ? "4px solid "+T.header : "1px solid #c8d4e8", borderRadius: 10, padding: "10px 16px", marginBottom: 6 }}>
-            <span style={{ fontSize: 16, width: 24 }}>{medal(i)}</span>
-            <span style={{ flex: 1, fontWeight: 600, fontSize: 14 }}>{e.name}</span>
-            <span style={{ fontFamily: "'Carlito',sans-serif", fontSize: 13, color: T.header }}>{e.score}/{e.total}</span>
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, background: e.name===playerName ? T.accentDim : "rgba(255,255,255,0.03)", border: "1px solid "+(e.name===playerName ? T.accent+"40" : T.panelBorder), borderRadius: 10, padding: "10px 16px", marginBottom: 6 }}>
+            <span style={{ fontSize: 18, width: 24 }}>{medal(i)}</span>
+            <span style={{ flex: 1, fontWeight: 600, fontSize: 15 }}>{e.name}</span>
+            <span style={{ fontSize: 14, color: T.accent }}>{e.score}/{e.total}</span>
           </div>
         ))}
       </div>
-      <PrimaryBtn onClick={() => setScreen("home")}>← Back to all quizzes</PrimaryBtn>
+      <PrimaryBtn onClick={() => setScreen("home")}>← BACK TO ALL QUIZZES</PrimaryBtn>
       <div style={{ marginTop: 16 }}>
         <GlobalChat playerName={playerName} />
       </div>
