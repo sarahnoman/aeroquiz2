@@ -470,10 +470,10 @@ function PlayerApp() {
                   <span style={{ fontFamily: "monospace", fontWeight: 700, fontSize: 16 }}>{date}</span>
                   {isToday && <Tag color={T.accent}>TODAY</Tag>}
                 </div>
-                <div style={{ fontSize: 12, color: T.muted }}>{quizzes[date].length} questions · {dateLb.length} players</div>
-                {quizzes[date].topic && (
+                <div style={{ fontSize: 12, color: T.muted }}>{(Array.isArray(quizzes[date]) ? quizzes[date] : (quizzes[date]?.questions || [])).length} questions · {dateLb.length} players</div>
+                {(Array.isArray(quizzes[date]) ? null : quizzes[date]?.topic) && (
   <div style={{ fontSize: 13, fontWeight: 600, color: T.accent, marginTop: 2 }}>
-    {quizzes[date].topic}
+    {Array.isArray(quizzes[date]) ? null : quizzes[date]?.topic}
   </div>
 )}
 
