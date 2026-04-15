@@ -392,7 +392,7 @@ function PlayerApp() {
     setLoading(false);
   }
 
-  const questions = selectedDate ? (quizzes[selectedDate] || []) : [];
+  const questions = selectedDate ? (Array.isArray(quizzes[selectedDate]) ? quizzes[selectedDate] : (quizzes[selectedDate]?.questions || [])) : [];
   const q = questions[current] || {};
   const pct = questions.length ? score / questions.length : 0;
   const quizDates = Object.keys(quizzes).sort().reverse();
